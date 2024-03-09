@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Route,
   Routes,
   Navigate,
@@ -14,6 +14,9 @@ import Fibonacci from "./fibonacciPage";
 import PrimeNumbers from "./primeNumbers";
 import Exponents from "./exponents";
 import HomePage from "./homepage";
+import MandelbrotSet from "./mandelbrot";
+import SierpinskiTriangle from "./sierpinskitriangle";
+import LevyCCurve from "./levyccurve";
 
 function App() {
   return (
@@ -23,6 +26,7 @@ function App() {
         {/* <Counting /> */}
         <Container maxWidth="lg" disableGutters={true}>
           <Routes>
+            <Route path="/index" element={<HomePage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/counting" element={<Counting />} />
@@ -30,6 +34,12 @@ function App() {
             <Route path="/fibonacci" element={<Fibonacci />} />
             <Route path="/primenumbers" element={<PrimeNumbers />} />
             <Route path="/exponents" element={<Exponents />} />
+            <Route path="/mandelbrotset" element={<MandelbrotSet />} />
+            <Route
+              path="/sierpinskitriangle"
+              element={<SierpinskiTriangle />}
+            />
+            <Route path="/levyccurve" element={<LevyCCurve />} />
           </Routes>
         </Container>
       </Router>

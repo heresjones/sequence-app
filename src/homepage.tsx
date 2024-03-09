@@ -13,7 +13,7 @@ const HomePage = () => {
         alignItems: "center",
       }}
     >
-      <Typography variant="h2">Welcome to My Sequence Page</Typography>
+      <Typography variant="h2">Welcome to My Math App</Typography>
       <img
         src={myImage}
         alt="Descriptive alt text"

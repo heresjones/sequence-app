@@ -7,12 +7,12 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import { ListItemIcon, ListItemText } from "@mui/material";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+
 const pages = [
   "counting",
   "digits of pi",
@@ -21,27 +21,37 @@ const pages = [
   "exponents",
 ];
 
+const fractals = ["mandelbrot set", "levy c curve", "sierpinski triangle"];
+
 function ResponsiveAppBar() {
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [subMenuAnchorEl, setSubMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
+  const [fractalMenuAnchorEl, setFractalMenuAnchorEl] =
+    React.useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleOpenSubMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setSubMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseSubMenu = () => {
+    setSubMenuAnchorEl(null);
+  };
+
+  const handleOpenFractalMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setFractalMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseFractalMenu = () => {
+    setFractalMenuAnchorEl(null);
   };
 
   return (
@@ -53,72 +63,98 @@ function ResponsiveAppBar() {
             aria-label="account of current user"
             aria-controls="menu-appbar"
             aria-haspopup="true"
-            onClick={handleOpenNavMenu}
+            onClick={handleOpenMenu}
             color="inherit"
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-            }}
-          >
-            Sequences
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+            Math App
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMenu}
+          >
+            <MenuItem onClick={handleOpenSubMenu}>
+              <ListItemIcon>
+                <ArrowDropDownIcon />
+              </ListItemIcon>
+              <ListItemText>Sequences</ListItemText>
+            </MenuItem>
             <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
+              id="sub-menu-appbar"
+              anchorEl={subMenuAnchorEl}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
                 vertical: "top",
                 horizontal: "left",
               }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
+              open={Boolean(subMenuAnchorEl)}
+              onClose={handleCloseSubMenu}
             >
               {pages.map((page) => (
-                <MenuItem key={page}>
-                  <Link to={`/${page.toLowerCase().replace(/ /g, "")}`}>
-                    <Typography textAlign="center" onClick={handleCloseNavMenu}>
-                      {page}
-                    </Typography>
-                  </Link>
+                <MenuItem
+                  key={page}
+                  component={Link}
+                  to={`/${page.toLowerCase().replace(/ /g, "")}`}
+                  onClick={handleCloseSubMenu}
+                >
+                  {page}
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                sx={{ my: 2, color: "white", display: "block" }}
-                component={Link}
-                to={`/${page.toLowerCase().replace(/ /g, "")}`}
-              >
-                {page}
-              </Button>
-            ))}
-          </Box>
+            <MenuItem onClick={handleOpenFractalMenu}>
+              <ListItemIcon>
+                <ArrowDropDownIcon />
+              </ListItemIcon>
+              <ListItemText>Fractals</ListItemText>
+            </MenuItem>
+            <Menu
+              id="fractal-menu-appbar"
+              anchorEl={fractalMenuAnchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(fractalMenuAnchorEl)}
+              onClose={handleCloseFractalMenu}
+            >
+              {fractals.map((fractal) => (
+                <MenuItem
+                  key={fractal}
+                  component={Link}
+                  to={`/${fractal.toLowerCase().replace(/ /g, "")}`}
+                  onClick={handleCloseFractalMenu}
+                >
+                  {fractal}
+                </MenuItem>
+              ))}
+            </Menu>
+          </Menu>
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
+
 export default ResponsiveAppBar;
